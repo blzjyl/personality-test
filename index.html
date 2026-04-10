@@ -161,12 +161,40 @@ const dimensionNames = [
   "暴脾气","乐观值","显眼包","执行力","佛系值"
 ];
 
+// ==============================================
+// 👉 这里就是带图片的结果！你只改 img: 后面的网址！
+// ==============================================
 const personalities = [
-  {name:"🥳 终极显眼包人格",match:"99%",desc:"你就是人群中最亮的星！天生自带搞笑buff，走到哪里都是气氛组担当，朋友没了你根本快乐不起来，虽然偶尔有点中二，但绝对是大家的开心果～"},
-  {name:"😴 佛系摆烂大师人格",match:"95%",desc:"人生宗旨：躺平才是真理！不争不抢不内卷，能坐着绝不站着，能躺着绝不坐着，心态好到爆炸，烦恼根本追不上你，主打一个随心所欲～"},
-  {name:"🐱 高冷宅家神仙人格",match:"92%",desc:"社交牛杂症晚期，最爱宅家独自美丽！外面的世界与我无关，沙发就是快乐星球，社恐但内心丰富，安静又治愈，是个温柔的宝藏选手～"},
-  {name:"🧠 理智腹黑聪明人人格",match:"90%",desc:"人间清醒天花板！做事冷静有规划，从不冲动行事，智商在线情商拉满，看似低调实则深藏不露，是团队里的靠谱大脑～"},
-  {name:"🐶 快乐随和小太阳人格",match:"97%",desc:"温柔治愈小天使！脾气好到没话说，对人真诚又热心，走到哪里都能带来温暖，没有心机没有烦恼，和你相处超级舒服～"}
+  {
+    name:"dooonk",
+    match:"99%",
+    img:"https://imgchr.com/i/pewdLfU",
+    desc:"你就是人群中最亮的星！天生自带搞笑buff，走到哪里都是气氛组担当，朋友没了你根本快乐不起来，虽然偶尔有点中二，但绝对是大家的开心果～"
+  },
+  {
+    name:"dank",
+    match:"95%",
+    img:"https://imgchr.com/i/pewdLfU",
+    desc:"人生宗旨：躺平才是真理！不争不抢不内卷，能坐着绝不站着，能躺着绝不坐着，心态好到爆炸，烦恼根本追不上你，主打一个随心所欲～"
+  },
+  {
+    name:"donk1ng",
+    match:"92%",
+    img:"https://imgchr.com/i/pewdLfU",
+    desc:"社交牛杂症晚期，最爱宅家独自美丽！外面的世界与我无关，沙发就是快乐星球，社恐但内心丰富，安静又治愈，是个温柔的宝藏选手～"
+  },
+  {
+    name:"donk",
+    match:"90%",
+    img:"https://imgchr.com/i/pewdLfU",
+    desc:"人间清醒天花板！做事冷静有规划，从不冲动行事，智商在线情商拉满，看似低调实则深藏不露，是团队里的靠谱大脑～"
+  },
+  {
+    name:"duck",
+    match:"97%",
+    img:"https://imgchr.com/i/pewdLfU",
+    desc:"温柔治愈小天使！脾气好到没话说，对人真诚又热心，走到哪里都能带来温暖，没有心机没有烦恼，和你相处超级舒服～"
+  }
 ];
 
 let currentQuestion = 0;
@@ -213,9 +241,16 @@ function showResult(){
   document.getElementById("result").style.display="block";
   let total = scores.reduce((a,b)=>a+b,0);
   let p = personalities[total%5];
+  
   document.getElementById("personality").innerText = p.name;
   document.getElementById("match").innerText = `匹配度：${p.match}`;
-  document.getElementById("desc").innerText = p.desc;
+  
+  // ✅ 这里自动显示图片！
+  document.getElementById("desc").innerHTML = `
+    <img src="${p.img}" style="width:90%; max-width:320px; border-radius:16px; margin:10px auto; display:block;">
+    <br>${p.desc}
+  `;
+
   let board = document.getElementById("scoreBoard");
   board.innerHTML = "";
   scores.forEach((sc,i)=>{
