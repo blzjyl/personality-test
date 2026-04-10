@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>终极搞笑人格测试 - 测测你是什么奇葩</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        /* 首页样式 */
+        .home-page {
+            text-align: center;
+            display: block;
+        }
+        
+        .home-page h1 {
+            font-size: 32px;
+            color: #ff5e7d;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .home-page .slogan {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+        
+        .start-btn {
+            background: #ff5e7d;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+        
+        .start-btn:hover {
+            background: #ff3a60;
+            transform: scale(1.05);
+        }
+        
+        /* 测试页面样式 */
+        .test-page {
+            display: none;
+        }
+        
+        .question-title {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 25px;
+            line-height: 1.5;
+            font-weight: bold;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .option {
+            background: #f8f9fa;
+            border: 2px solid #eee;
+            padding: 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 16px;
+        }
+        
+        .option:hover {
+            border-color: #ff5e7d;
+            background: #fff5f7;
+        }
+        
+        .option.selected {
+            background: #ff5e7d;
+            color: white;
+            border-color: #ff5e7d;
+        }
+        
+        .progress {
+            margin-top: 30px;
+            text-align: center;
+            color: #666;
+            font-size: 16px;
+        }
+        
+        /* 结果页面样式 */
+        .result-page {
+            display: none;
+            text-align: center;
+        }
+        
+        .result-title {
+            font-size: 28px;
+            color: #ff5e7d;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .match-rate {
+            font-size: 20px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .result-desc {
+            font-size: 17px;
+            color: #444;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            text-align: left;
+            background: #fdf3f5;
+            padding: 20px;
+            border-radius: 12px;
+        }
+        
+        .score-title {
+            font-size: 20px;
+            color: #333;
+            margin: 30px 0 20px;
+            font-weight: bold;
+        }
+        
+        .score-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        
+        .score-item {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        .score-item .name {
+            color: #555;
+            margin-bottom: 5px;
+        }
+        
+        .score-item .bar {
+            height: 8px;
+            background: #eee;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .score-item .fill {
+            height: 100%;
+            background: #ff5e7d;
+        }
+        
+        .author-words {
+            background: #fff9e6;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: left;
+            line-height: 1.8;
+            color: #856404;
+            margin-top: 20px;
+        }
+        
+        .restart-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 30px;
+        }
+        
+        /* 移动端适配 */
+        @media (max-width: 500px) {
+            .container {
+                padding: 20px;
+            }
+            .home-page h1 {
+                font-size: 26px;
+            }
+            .question-title {
+                font-size: 20px;
+            }
+            .score-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- 首页 -->
+        <div class="home-page" id="home">
+            <h1>🤪 终极搞笑人格测试 🤪</h1>
+            <p class="slogan">全网最准的奇葩人格鉴定<br>测完你会发现：原来我是这种人！</p>
+            <button class="start-btn" onclick="startTest()">立即开始测试</button>
+        </div>
+
+        <!-- 测试页 -->
+        <div class="test-page" id="test">
+            <div class="question-title" id="question"></div>
+            <div class="options" id="options"></div>
+            <div class="progress" id="progress"></div>
+        </div>
+
+        <!-- 结果页 -->
+        <div class="result-page" id="result">
+            <div class="result-title" id="personality"></div>
+            <div class="match-rate" id="match"></div>
+            <div class="result-desc" id="desc"></div>
+
+            <div class="score-title">📊 十五维度人格评分</div>
+            <div class="score-grid" id="scoreBoard"></div>
+
+            <div class="author-words">
+                <strong>💌 作者的话：</strong><br>
+                本测试纯属娱乐，主打一个搞笑整活，不准不要钱！<br>
+                人格没有高低贵贱，每一种奇葩都是独一无二的宝藏～<br>
+                觉得好玩就分享给朋友，一起看看谁是终极显眼包！
+            </div>
+
+            <button class="restart-btn" onclick="restart()">重新测试</button>
+        </div>
+    </div>
+
+    <script>
+        // 15道测试题（每题4个选项，对应5个维度加分）
+        const questions = [
+            {
+                q: "1. 朋友约你出门，你第一反应是？",
+                o: [
+                    { text: "马上答应，主打一个随叫随到", score: [5,0,3,0,2] },
+                    { text: "先躺会儿，磨蹭半小时再出门", score: [0,5,0,2,3] },
+                    { text: "找借口推脱，只想宅家", score: [0,0,5,3,0] },
+                    { text: "问清去哪干嘛，再决定去不去", score: [2,3,0,5,0] }
+                ]
+            },
+            {
+                q: "2. 上班/上课迟到了，你会？",
+                o: [
+                    { text: "坦然走进教室，假装没事人", score: [0,0,0,5,5] },
+                    { text: "偷偷溜进去，生怕被发现", score: [0,3,2,0,0] },
+                    { text: "干脆摆烂，迟到就迟到呗", score: [5,0,0,0,3] },
+                    { text: "疯狂道歉，解释迟到原因", score: [0,2,5,0,0] }
+                ]
+            },
+            {
+                q: "3. 看到搞笑视频，你会？",
+                o: [
+                    { text: "哈哈大笑，分享给所有人", score: [5,5,0,0,0] },
+                    { text: "默默收藏，自己偷偷乐", score: [0,0,5,0,2] },
+                    { text: "面无表情，内心毫无波澜", score: [0,0,0,5,0] },
+                    { text: "吐槽太尬，一点都不好笑", score: [0,0,0,0,5] }
+                ]
+            },
+            {
+                q: "4. 点外卖纠结半小时，你最终会？",
+                o: [
+                    { text: "随便点一个，不饿死就行", score: [5,0,0,3,0] },
+                    { text: "跟着好评最多的点", score: [0,2,0,5,0] },
+                    { text: "点常吃的，绝不踩雷", score: [0,0,5,0,3] },
+                    { text: "让朋友帮你决定", score: [0,5,2,0,0] }
+                ]
+            },
+            {
+                q: "5. 别人夸你好看，你会？",
+                o: [
+                    { text: "谢谢！你眼光真好", score: [5,0,0,2,0] },
+                    { text: "害羞摆手，没有没有", score: [0,5,0,0,2] },
+                    { text: "那必须的，我超美", score: [0,0,0,0,5] },
+                    { text: "假装没听见，转移话题", score: [0,0,5,0,0] }
+                ]
+            },
+            {
+                q: "6. 周末你最想做的事是？",
+                o: [
+                    { text: "出门逛街聚会嗨翻天", score: [5,0,0,0,2] },
+                    { text: "宅家躺平刷剧睡大觉", score: [0,5,5,0,0] },
+                    { text: "学习提升自己卷死别人", score: [0,0,0,5,3] },
+                    { text: "打游戏开黑快乐至上", score: [3,0,0,0,5] }
+                ]
+            },
+            {
+                q: "7. 遇到尴尬的事情，你会？",
+                o: [
+                    { text: "当场社死，想找地缝钻进去", score: [0,5,0,0,0] },
+                    { text: "一笑而过，假装不在意", score: [5,0,0,3,2] },
+                    { text: "记仇一辈子，反复回想", score: [0,0,5,0,3] },
+                    { text: "主动化解，搞笑圆场", score: [0,0,0,5,5] }
+                ]
+            },
+            {
+                q: "8. 你更喜欢的社交方式是？",
+                o: [
+                    { text: "线上聊天，社牛本牛", score: [5,0,0,2,3] },
+                    { text: "线下见面，真实舒服", score: [0,5,2,5,0] },
+                    { text: "不社交，独自美丽", score: [0,0,5,0,0] },
+                    { text: "小圈子聚会，轻松自在", score: [2,3,0,0,5] }
+                ]
+            },
+            {
+                q: "9. 花钱的时候你通常是？",
+                o: [
+                    { text: "大手大脚，开心最重要", score: [5,0,0,0,5] },
+                    { text: "精打细算，能省则省", score: [0,0,5,5,0] },
+                    { text: "冲动消费，买完就后悔", score: [0,5,0,0,3] },
+                    { text: "理性消费，只买需要的", score: [0,0,0,5,2] }
+                ]
+            },
+            {
+                q: "10. 别人找你帮忙，你会？",
+                o: [
+                    { text: "毫不犹豫答应，老好人", score: [0,5,5,0,0] },
+                    { text: "看情况，能帮就帮", score: [2,0,0,5,3] },
+                    { text: "直接拒绝，不想麻烦", score: [5,0,0,0,0] },
+                    { text: "先答应，再偷偷后悔", score: [0,3,2,0,5] }
+                ]
+            },
+            {
+                q: "11. 你发脾气的频率是？",
+                o: [
+                    { text: "一点就炸，易燃易爆", score: [5,0,0,0,0] },
+                    { text: "很少生气，脾气超好", score: [0,5,0,3,2] },
+                    { text: "默默生气，不表现出来", score: [0,0,5,0,3] },
+                    { text: "冷静沟通，解决问题", score: [0,0,0,5,0] }
+                ]
+            },
+            {
+                q: "12. 对于未来，你是？",
+                o: [
+                    { text: "充满期待，乐观积极", score: [5,0,0,5,0] },
+                    { text: "走一步看一步，佛系", score: [0,5,3,0,2] },
+                    { text: "焦虑不安，担心很多", score: [0,0,5,0,0] },
+                    { text: "摆烂躺平，无所谓", score: [0,0,0,0,5] }
+                ]
+            },
+            {
+                q: "13. 在人群中你是？",
+                o: [
+                    { text: "显眼包，全场焦点", score: [5,0,0,0,5] },
+                    { text: "小透明，安静待着", score: [0,0,5,0,0] },
+                    { text: "气氛组，带动全场", score: [0,5,0,5,0] },
+                    { text: "观察者，默默看大家", score: [0,0,0,5,2] }
+                ]
+            },
+            {
+                q: "14. 你做事的风格是？",
+                o: [
+                    { text: "雷厉风行，说干就干", score: [5,0,0,5,0] },
+                    { text: "拖延晚期，最后一刻完成", score: [0,5,0,0,5] },
+                    { text: "仔细规划，有条不紊", score: [0,0,5,5,0] },
+                    { text: "随心所欲，随缘完成", score: [0,0,0,0,5] }
+                ]
+            },
+            {
+                q: "15. 你觉得自己最像哪种动物？",
+                o: [
+                    { text: "快乐修勾（热情外向）", score: [5,0,0,2,3] },
+                    { text: "慵懒猫咪（高冷佛系）", score: [0,0,5,0,5] },
+                    { text: "憨憨熊猫（可爱随和）", score: [0,5,2,3,0] },
+                    { text: "聪明狐狸（理智腹黑）", score: [0,0,0,5,0] }
+                ]
+            }
+        ];
+        
+        // 15个人格维度名称
+        const dimensionNames = [
+            "外向值", "随和值", "宅家值", "理智值", "搞怪值",
+            "社死值", "摆烂值", "社牛值", "消费观", "老好人值",
+            "暴脾气", "乐观值", "显眼包", "执行力", "佛系值"
+        ];
+        
+        // 人格结果配置
+        const personalities = [
+            { name: "🥳 终极显眼包人格", match: "99%", desc: "你就是人群中最亮的星！天生自带搞笑buff，走到哪里都是气氛组担当，朋友没了你根本快乐不起来，虽然偶尔有点中二，但绝对是大家的开心果～" },
+            { name: "😴 佛系摆烂大师人格", match: "95%", desc: "人生宗旨：躺平才是真理！不争不抢不内卷，能坐着绝不站着，能躺着绝不坐着，心态好到爆炸，烦恼根本追不上你，主打一个随心所欲～" },
+            { name: "🐱 高冷宅家神仙人格", match: "92%", desc: "社交牛杂症晚期，最爱宅家独自美丽！外面的世界与我无关，沙发就是快乐星球，社恐但内心丰富，安静又治愈，是个温柔的宝藏选手～" },
+            { name: "🧠 理智腹黑聪明人人格", match: "90%", desc: "人间清醒天花板！做事冷静有规划，从不冲动行事，智商在线情商拉满，看似低调实则深藏不露，是团队里的靠谱大脑～" },
+            { name: "🐶 快乐随和小太阳人格", match: "97%", desc: "温柔治愈小天使！脾气好到没话说，对人真诚又热心，走到哪里都能带来温暖，没有心机没有烦恼，和你相处超级舒服～" }
+        ];
+        
+        let currentQuestion = 0;
+        let scores = new Array(15).fill(0);
+        
+        // 开始测试
+        function startTest() {
+            document.getElementById("home").style.display = "none";
+            document.getElementById("test").style.display = "block";
+            renderQuestion();
+        }
+        
+        // 渲染题目
+        function renderQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById("question").innerText = q.q;
+            const optionsEl = document.getElementById("options");
+            optionsEl.innerHTML = "";
+        
+            q.o.forEach((option, index) => {
+                const div = document.createElement("div");
+                div.className = "option";
+                div.innerText = option.text;
+                div.onclick = () => selectOption(index);
+                optionsEl.appendChild(div);
+            });
+        
+            document.getElementById("progress").innerText = `第 ${currentQuestion+1}/15 题`;
+        }
+        
+        // 选择选项
+        function selectOption(index) {
+            // 高亮选中
+            const options = document.querySelectorAll(".option");
+            options.forEach(opt => opt.classList.remove("selected"));
+            options[index].classList.add("selected");
+        
+            // 加分
+            const score = questions[currentQuestion].o[index].score;
+            for(let i=0; i<5; i++){
+                scores[currentQuestion*3 + i] += score[i];
+            }
+        
+            // 下一题/结果
+            setTimeout(() => {
+                currentQuestion++;
+                if(currentQuestion < 15){
+                    renderQuestion();
+                }else{
+                    showResult();
+                }
+            }, 300);
+        }
+        
+        // 显示结果
+        function showResult() {
+            document.getElementById("test").style.display = "none";
+            document.getElementById("result").style.display = "block";
+        
+            // 计算总分，判定人格
+            const total = scores.reduce((a,b) => a+b, 0);
+            const personalityIndex = Math.floor(total % 5);
+            const p = personalities[personalityIndex];
+        
+            document.getElementById("personality").innerText = p.name;
+            document.getElementById("match").innerText = `匹配度：${p.match}`;
+            document.getElementById("desc").innerText = p.desc;
+        
+            // 渲染15维度评分
+            const scoreBoard = document.getElementById("scoreBoard");
+            scoreBoard.innerHTML = "";
+            scores.forEach((score, index) => {
+                const s = Math.min(100, Math.max(0, score * 5));
+                const item = `
+                    <div class="score-item">
+                        <div class="name">${dimensionNames[index]}</div>
+                        <div class="bar">
+                            <div class="fill" style="width: ${s}%"></div>
+                        </div>
+                        <div style="margin-top:5px">${s}分</div>
+                    </div>
+                `;
+                scoreBoard.innerHTML += item;
+            });
+        }
+        
+        // 重新测试
+        function restart() {
+            currentQuestion = 0;
+            scores = new Array(15).fill(0);
+            document.getElementById("result").style.display = "none";
+            document.getElementById("home").style.display = "block";
+        }
+    </script>
+</body>
+
+</html>
