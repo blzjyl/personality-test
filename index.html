@@ -60,7 +60,7 @@ body{background:linear-gradient(135deg,#ffecd2 0%,#fcb69f 100%);min-height:100vh
   </div>
 </div>
 
-<audio id="bgm"></audio>
+<audio id="bgm" loop autoplay></audio>
 
 <script>
 const questions = [
@@ -162,44 +162,36 @@ const dimensionNames = [
   "暴脾气","乐观值","显眼包","执行力","佛系值"
 ];
 
-// ==============================
-// 每个结果 → 独立图片 + 独立音乐
-// ==============================
 const personalities = [
   {
     name:"dank",
     match:"99%",
     img:"https://s41.ax1x.com/2026/04/11/pewdLfU.webp",
-    music:"https://github.com/blzjyl/personality-test/raw/refs/heads/main/wfg1d-yeqmc.mp3",
-    desc:"你就是人群中最亮的星！天生自带搞笑buff，走到哪里都是气氛组担当，朋友没了你根本快乐不起来，虽然偶尔有点中二，但绝对是大家的开心果～"
+    music:"https://github.com/blzjyl/personality-test/raw/refs/heads/main/wfg1d-yeqmc.mp3"
   },
   {
     name:"donk",
     match:"95%",
     img:"https://s41.ax1x.com/2026/04/11/pewdLfU.webp",
-    music:"https://github.com/blzjyl/personality-test/raw/refs/heads/main/wfg1d-yeqmc.mp3",
-    desc:"人生宗旨：躺平才是真理！不争不抢不内卷，能坐着绝不站着，能躺着绝不坐着，心态好到爆炸，烦恼根本追不上你，主打一个随心所欲～"
+    music:"https://github.com/blzjyl/personality-test/raw/refs/heads/main/wfg1d-yeqmc.mp3"
   },
   {
     name:"duck",
     match:"92%",
     img:"https://s41.ax1x.com/2026/04/11/pewdLfU.webp",
-    music:"https://github.com/blzjyl/personality-test/raw/refs/heads/main/wfg1d-yeqmc.mp3",
-    desc:"社交牛杂症晚期，最爱宅家独自美丽！外面的世界与我无关，沙发就是快乐星球，社恐但内心丰富，安静又治愈，是个温柔的宝藏选手～"
+    music:"https://github.com/blzjyl/personality-test/raw/refs/heads/main/wfg1d-yeqmc.mp3"
   },
   {
     name:"donk1ng",
     match:"90%",
     img:"https://s41.ax1x.com/2026/04/11/pewdLfU.webp",
-    music:"https://music.163.com/song/media/outer/url?id=1831899575.mp3",
-    desc:"人间清醒天花板！做事冷静有规划，从不冲动行事，智商在线情商拉满，看似低调实则深藏不露，是团队里的靠谱大脑～"
+    music:"https://github.com/blzjyl/personality-test/raw/refs/heads/main/wfg1d-yeqmc.mp3"
   },
   {
     name:"dooonk",
     match:"97%",
     img:"https://s41.ax1x.com/2026/04/11/pewdLfU.webp",
-    music:"https://music.163.com/song/media/outer/url?id=1831899575.mp3",
-    desc:"温柔治愈小天使！脾气好到没话说，对人真诚又热心，走到哪里都能带来温暖，没有心机没有烦恼，和你相处超级舒服～"
+    music:"https://github.com/blzjyl/personality-test/raw/refs/heads/main/wfg1d-yeqmc.mp3"
   }
 ];
 
@@ -254,13 +246,10 @@ function showResult(){
   
   document.getElementById("desc").innerHTML = `
     <img src="${p.img}" style="width:90%;max-width:320px;border-radius:16px;margin:10px auto;display:block;">
-    <br>${p.desc}
   `;
 
-  // 🎵 播放当前结果专属音乐
   audio.src = p.music;
-  audio.currentTime = 0;
-  audio.play().catch(err=>{});
+  audio.play().catch(e=>{});
 
   let board = document.getElementById("scoreBoard");
   board.innerHTML = "";
@@ -282,6 +271,11 @@ function restart(){
   document.getElementById("result").style.display="none";
   document.getElementById("home").style.display="block";
 }
+
+// 页面加载就自动准备音乐
+window.addEventListener('DOMContentLoaded', () => {
+  audio.src = "wfg1d-yeqmc.mp3";
+});
 </script>
 </body>
 </html>
